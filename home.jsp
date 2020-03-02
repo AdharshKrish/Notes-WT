@@ -26,11 +26,12 @@
         a:hover{
             text-decoration: none;
         }
-        textarea{
-            border: none;
+        .add-note{
+          margin-bottom:10px;
+          color:#000;
         }
-        textarea:focus{
-            outline: none;
+        .add-note:focus{
+          color:#000;
         }
         body{
             background-color: #111;
@@ -83,13 +84,19 @@
       
     <div class="collapse" id="collapseExample">
       <div class="card card-body" id="fullcont">
-          <textarea id="text-cont" rows="5"></textarea>
-          <div class="row">
+        <form method="POST" action="http://localhost:80/projects/wt/update.php">
+          <input type="hidden" value="<%=user%>" name="user">
+          <input type="hidden" name="id" id="id-cont">
+          <input name="title" class="add-note form-control" id="title-cont" placeholder="Title" style="font-weight: bold">
+          <textarea name="content" class="add-note form-control" id="text-cont" rows="5"></textarea>
+          <!-- <div class="row">
           <div class="col-sm-11"></div>
-          <div class="col-sm-1">
-            <button class="btn-primary" onclick="save()" style="width:100px;">Save</button>
-        </div>
-      </div>
+          <div class="col-sm-1"> -->
+          <button class="btn-success" type="submit" style="width:8vw;font-size:1vw;margin-left:65vw;font-weight: bold;">Save</button>            
+          <button class="btn-danger" type="button" onclick="deleteNote()" style="width:8vw;font-size:1vw;margin-left:3vw;font-weight: bold;">Delete</button>
+        </form>
+        <!-- </div>
+      </div> -->
     </div>
     </div>
       <div class="row">
@@ -100,24 +107,15 @@
               <input type="text" value="<%=user%>" name="user" hidden>
           </div>
             <div class="col-sm-11">
-              <input class="form-control mr-sm-2" name="content" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control" name="content" placeholder="Enter new note content . . .">
             </div>
             <div class="col-sm-1">  
-              <button class="btn btn-warning my-2 my-sm-0" type="submit">Add</button>
+              <button class="btn btn-warning" type="submit">Add</button>
             </div>
           </div>
           </form>
         </div>
         <%
-           /* String[] bg = {"bg-primary","bg-secondary","bg-success","bg-danger","bg-warning","bg-info","bg-light","bg-dark"};
-            String label = "Label";
-            String title = "Title";
-            String content = "Some quick example text to build on the card title and make up the bulk of the cards content.Some quick example text to build on the card title and make up the bulk of the cards content.Some quick example text to build on the card title and make up the bulk of the cards content.";
-
-            for(int i=0;i<8;i++)
-            {
-                out.println("<div class=\"col-lg-3 col-md-4 col-sm-6 my-card\">\n<a data-toggle=\"collapse\" href=\"#collapseExample\" role=\"button\" onclick=\"setExpand(\'"+content+"',"+i+")\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n<div class=\"card "+(bg[i]=="bg-light"?"text-dark":"text-white")+" "+bg[i]+"\" style=\"max-width: 18rem;max-height: 14.4rem\">\n<div class=\"card-header\">"+label+"</div>\n<div class=\"card-body\"><h5 class=\"card-title\">"+title+"</h5><p class=\"card-text\">"+content+"</p></div></div></a></div>");
-            }*/
               try{
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost/notes","root","Mysql@123");
@@ -133,44 +131,42 @@
                   label = rs.getString("date");
                   content = rs.getString("content");
 
-                  out.println("<div class=\"col-lg-3 col-md-4 col-sm-6 my-card\">\n<a data-toggle=\"collapse\" href=\"#collapseExample\" role=\"button\" onclick=\"setExpand(\'"+content+"',"+i+")\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n<div class=\"card "+(bg[i]=="bg-light"?"text-dark":"text-white")+" "+bg[i]+"\" style=\"max-width: 18rem;max-height: 14.4rem\">\n<div class=\"card-header\">"+label+"</div>\n<div class=\"card-body\"><h5 class=\"card-title\">"+title+"</h5><p class=\"card-text\">"+content+"</p></div></div></a></div>");
-                  i = (i<8)?i+1:0;
-                  //out.println(id+" | "+title+" | "+label+" | "+content+"\n");                  
+                  out.println("<div id="+id+" class=\"col-lg-3 col-md-4 col-sm-6 my-card\">\n<a data-toggle=\"collapse\" href=\"#collapseExample\" role=\"button\" onclick=\"setExpand("+id+")\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n<div class=\"card "+(bg[i]=="bg-light"?"text-dark":"text-white")+" "+bg[i]+"\" style=\"max-width: 18rem;max-height: 14.4rem\">\n<div class=\"card-header\">"+label+"</div>\n<div class=\"card-body\"><h5 class=\"card-title\">"+title+"</h5><p class=\"card-text\">"+content+"</p></div></div></a></div>");
+                  i = (i<7)?i+1:0;
                 }}
                 catch(Exception e){
                    out.println(e);
                 }
         %>
 <script>
-    var now;
-    function setExpand(s,i){
-        // document.getElementById('fullcont').innerHTML=s;
-        document.getElementById('text-cont').value=s;
-        now=i;
+    function setExpand(id){
+        // let header = document.getElementById(id).getElementsByClassName('card-header')[0].innerHTML;
+        let title = document.getElementById(id).getElementsByClassName('card-title')[0].innerHTML;
+        let text = document.getElementById(id).getElementsByClassName('card-text')[0].innerHTML;
+        document.getElementById('text-cont').value=text;
+        document.getElementById('title-cont').value=title;
+        document.getElementById('id-cont').value=id;
     }
-    function save(){
-        //save at index now
-    }
-    function addNote(){
+    function deleteNote(){
       $.ajax({
                 type: "GET",
-                url: "http://localhost:80/projects/wt/add.php",
+                url: "http://localhost:80/projects/wt/delete.php",
                 dataType: "jsonp",
                 data: {
                     user: '<%=user%>',
-                    content: document.getElementById('new').value,
+                    id: document.getElementById('id-cont').value,
                 },
-                cache: false,
-                success: function (html) {
-                  alert(html);
+                cache: false
+                  // alert(html);
                     // if(!html.match('Failed')){
                         // window.location.href="http://localhost:80/projects/wt/index.html";
-                        // window.location.href="home.jsp?user="+a[0];
+                        // window.location.href="home.jsp?user=<%=user%>";
                     // }else{
-                    //     alert(html.trim());
+                        // alert(html.trim());
                     // }
-                }
+                 
             });
+            window.location.href="home.jsp?user=<%=user%>";
     }
 </script>
 </body>
