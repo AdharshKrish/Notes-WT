@@ -104,6 +104,22 @@ login{
         </div>
           <div class="col-lg-3 col-md-7 col-sm-12 col-time" style="height:1px">
             <time id="time"></time>
+            <%
+              if(session.getAttribute("user")!= null)
+              {
+                Cookie ck = new Cookie("lastlog",session.getAttribute("user").toString());
+                ck.setMaxAge(60*60*24*7);
+                response.addCookie(ck);
+                response.sendRedirect("http://localhost:8080/wt/home.jsp");
+              }
+                String cook = "";
+                Cookie c[] = request.getCookies();
+                for(Cookie cookie:c){  
+                  if(cookie.getName().equals("lastlog")){      
+                    cook = cookie.getValue();
+                  }
+                }
+            %>
           </div>
         <div class="col-lg-7 col-md-12 col-sm-12" style="padding:10px 0 10px 80px">
             <!-- <login style="position:relative;left:15vw" class="login-lg">
@@ -117,7 +133,7 @@ login{
               </form>
             </login> -->
             <login style="position:relative;left:15vw">
-              <!-- <form method="GET" action="localhost:8080/wt/login.jsp"> -->
+              <!-- <form method="GET" action="localhost:8080/wt/servlets/servlet/session"> -->
               <!-- <label> -->
               <div class="row">
                 <div class="col-xl-3 col-lg-12">
@@ -128,7 +144,16 @@ login{
               <div class="col-xl-5 col-lg-12">
                 Password<br> <input type="password" name="pass" id="input1" >
                 <input type="button" onclick="login()" value="login">
+                <!-- <input type="submit" value="login"> -->
               </div>
+              <div class="col-12" style="margin-top:10px;">
+                <%
+                  if(cook!="")
+                  {
+                    out.println("Last logged in user is "+cook);
+                  }
+                %>
+                </div>
             </div>
               <!-- </section> -->
             <!-- </form> -->
@@ -185,17 +210,16 @@ login{
             alert("please fill the fields");
         }else{
             $.ajax({
-                type: "POST",
-                url: "login.jsp",
+                type: "GET",
+                url: "servlets/servlet/session",
                 data: {
                     user: a[0],
                     pass: a[1],
                 },
                 cache: false,
                 success: function (html) {
-                    if(!html.match('Failed')){
-                        // window.location.href="http://localhost:80/projects/wt/index.html";
-                        window.location.href="home.jsp?user="+a[0];
+                    if(!html.match('Invalid user')){
+                        window.location.href="index.jsp";
                     }else{
                         alert(html.trim());
                     }

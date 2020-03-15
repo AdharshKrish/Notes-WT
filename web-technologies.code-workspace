@@ -4,8 +4,10 @@
 			"path": "."
 		},
 		{
-			"path": "C:\\xampp\\htdocs\\projects\\wt"
+			"path": "C:\\xampp\\htdocs\\wt"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "wt"
+	}
 }

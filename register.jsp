@@ -13,7 +13,7 @@
 
   try{
       Class.forName("com.mysql.jdbc.Driver");
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost/notes","root","Mysql@123");
+      Connection con = DriverManager.getConnection("jdbc:mysql://localhost/notes","root","");
       Statement st = con.createStatement();
       int x = st.executeUpdate("insert into login values ('"+email+"','"+pass+"','"+fname+"','"+lname+"','"+dob+"','"+gender+"')");
       if(x!=0){

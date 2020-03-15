@@ -42,7 +42,12 @@
 </head>
 <body>
     <%
-        String user = request.getParameter("user");
+        String user="";
+        if(session.getAttribute("user")!= null)
+          user = session.getAttribute("user").toString();
+        else
+          response.sendRedirect("http://localhost:8080/wt");
+
     %>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #333;">
         <a class="navbar-brand" href="home.jsp?user=<%=user%>"><b><%=user%></b></a>
@@ -53,10 +58,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="../examples/servlets/servlet/Ser">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="http://localhost:8080/wt/servlets/servlet/logout">Logout</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -84,7 +89,7 @@
       
     <div class="collapse" id="collapseExample">
       <div class="card card-body" id="fullcont">
-        <form method="POST" action="http://localhost:80/projects/wt/update.php">
+        <form method="POST" action="http://localhost:80/wt/update.php">
           <input type="hidden" value="<%=user%>" name="user">
           <input type="hidden" name="id" id="id-cont">
           <input name="title" class="add-note form-control" id="title-cont" placeholder="Title" style="font-weight: bold">
@@ -101,7 +106,7 @@
     </div>
       <div class="row">
         <div class="col-sm-12" style="margin-top:30px">
-          <form method="POST" action="http://localhost:80/projects/wt/add.php">
+          <form method="POST" action="http://localhost:80/wt/add.php">
           <div class="row">
           <div class="col-sm-0">
               <input type="text" value="<%=user%>" name="user" hidden>
@@ -118,7 +123,7 @@
         <%
               try{
                 Class.forName("com.mysql.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/notes","root","Mysql@123");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/notes","root","");
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery("select * from notes where user='"+user+"'");
                 String id,title,label,content;
@@ -150,7 +155,7 @@
     function deleteNote(){
       $.ajax({
                 type: "GET",
-                url: "http://localhost:80/projects/wt/delete.php",
+                url: "http://localhost:80/wt/delete.php",
                 dataType: "jsonp",
                 data: {
                     user: '<%=user%>',
@@ -172,4 +177,4 @@
 </body>
 </html>
 
-<%-- INSERT INTO `notes` (`user`, `title`, `date`, `content`) VALUES ('Adharsh', 'No title', current_timestamp(), 'Third note') --%>
+<!-- <%-- INSERT INTO `notes` (`user`, `title`, `date`, `content`) VALUES ('Adharsh', 'No title', current_timestamp(), 'Third note') --%> -->
