@@ -8,6 +8,7 @@
     <script src="js/jquery.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
     <link href="https://fonts.googleapis.com/css?family=Oswald|Krona+One|Akronim|Odibee+Sans&display=swap" rel="stylesheet">
+    <link href="img/favicon.ico" rel="icon" type="image/png" />
 <style>
   body{
     background: #ffe4b1;

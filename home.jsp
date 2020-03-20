@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap4.css">
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
+    <link href="img/favicon.ico" rel="icon" type="image/png" />
     <title>Notes</title>
     <style>
         

@@ -2,6 +2,9 @@
 
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>
 <html>
+  <head>
+    <link href="img/favicon.ico" rel="icon" type="image/png" />
+  </head>
     <body style="background:#ffe4b1">
 <%
   String email = request.getParameter("email");

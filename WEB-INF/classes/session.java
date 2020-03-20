@@ -13,15 +13,18 @@ public class session extends HttpServlet
         PrintWriter out = response.getWriter();
         String user = request.getParameter("user");
         String pass = request.getParameter("pass");
-        try{
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/notes","root","");
             Statement st = con.createStatement();
             ResultSet r = st.executeQuery("select * from login where email='"+user+"' and password='"+pass+"'");
-            if(r.next()){
+            if(r.next())
+            {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user",user);
-            }else{
+            }else
+            {
                 response.setContentType("text/html");
                 out.println("Invalid user");
             }
