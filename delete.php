@@ -2,7 +2,8 @@
     $con=mysqli_connect("localhost","root","","notes");
     $user = $_GET['user'];
     $id = $_GET['id'];
-    $sql = "delete from notes where id=".$id;
+    $sql = "update notes set deleted=1 where id=".$id;
+    // $sql = "delete from notes where id=".$id;
     $result = mysqli_query($con,$sql);
     if($result){
         echo 'done';

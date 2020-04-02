@@ -51,7 +51,7 @@
 
     %>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #333;">
-        <a class="navbar-brand" href="home.jsp?user=<%=user%>"><b><%=user%></b></a>
+        <a class="navbar-brand" href="home.jsp"><b><%=user%></b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -59,17 +59,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="../examples/servlets/servlet/Ser">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="home.jsp">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://localhost:8080/wt/servlets/servlet/logout">Logout</a>
+              <a class="nav-link" href="bin.jsp">Recycle Bin</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Labels
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="wind.html">Wind</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Another action</a>
                 <div class="dropdown-divider"></div>
@@ -80,10 +80,11 @@
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li> -->
           </ul>
-          <form class="form-inline my-2 my-lg-0">
+              <a class="nav-link" href="http://localhost:8080/wt/servlets/servlet/logout">Logout</a>
+              <!-- <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+          </form> -->
         </div>
       </nav>
       <!-- <div style="height:800px;width:100px;background-color: burlywood;"></div> -->
@@ -93,13 +94,23 @@
         <form method="POST" action="http://localhost:80/wt/update.php">
           <input type="hidden" value="<%=user%>" name="user">
           <input type="hidden" name="id" id="id-cont">
-          <input name="title" class="add-note form-control" id="title-cont" placeholder="Title" style="font-weight: bold">
+          <!-- <div class="row">
+            <div class="col-11"> -->
+              <button type="button" style="float:right;background-color: #f00;color: #fff;border:1px solid #0000;border-radius: 20%;" class="mb-3" onclick="deleteNote()" >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fff" width="32px" height="32px"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"/><path d="M0 0h24v24H0V0z" fill="none"/></svg>
+              </button>
+              <input name="title" class="add-note form-control" id="title-cont" placeholder="Title" style="font-weight: bold">
+            <!-- </div>
+            <div class="col-auto"> -->
+            <!-- </div>
+          </div> -->
           <textarea name="content" class="add-note form-control" id="text-cont" rows="5"></textarea>
           <!-- <div class="row">
           <div class="col-sm-11"></div>
           <div class="col-sm-1"> -->
-          <button class="btn-success" type="submit" style="width:8vw;font-size:1vw;margin-left:65vw;font-weight: bold;">Save</button>            
-          <button class="btn-danger" type="button" onclick="deleteNote()" style="width:8vw;font-size:1vw;margin-left:3vw;font-weight: bold;">Delete</button>
+          <button type="submit" style="float:right;background-color: #0c5;color: #fff;padding:5px 20px;border:1px solid #0000;border-radius: 5px">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fff" width="36px" height="36px"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+          </button>            
         </form>
         <!-- </div>
       </div> -->
@@ -113,7 +124,7 @@
               <input type="text" value="<%=user%>" name="user" hidden>
           </div>
             <div class="col-sm-11">
-              <input class="form-control" name="content" placeholder="Enter new note content . . .">
+              <input class="form-control" id="new-note" name="content" placeholder="Enter new note content . . .">
             </div>
             <div class="col-sm-1">  
               <button class="btn btn-warning" type="submit">Add</button>
@@ -126,7 +137,7 @@
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost/notes","root","");
                 Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("select * from notes where user='"+user+"'");
+                ResultSet rs = st.executeQuery("select * from notes where user='"+user+"' and deleted=0");
                 String id,title,label,content;
                 String[] bg = {"bg-primary","bg-secondary","bg-success","bg-danger","bg-warning","bg-info","bg-light","bg-dark"};
                 int i = 0;
@@ -163,17 +174,10 @@
                     id: document.getElementById('id-cont').value,
                 },
                 cache: false
-                  // alert(html);
-                    // if(!html.match('Failed')){
-                        // window.location.href="http://localhost:80/projects/wt/index.html";
-                        // window.location.href="home.jsp?user=<%=user%>";
-                    // }else{
-                        // alert(html.trim());
-                    // }
-                 
             });
-            window.location.href="home.jsp?user=<%=user%>";
+            setTimeout(()=>{window.location.reload()},100)
     }
+    document.querySelector('#new-note').focus()
 </script>
 </body>
 </html>
