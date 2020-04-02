@@ -138,12 +138,12 @@ login{
               <!-- <label> -->
               <div class="row">
                 <div class="col-xl-3 col-lg-12">
-                Email<br> <input type="text" name="user" id="input0" >
+                Email<br> <input type="text" name="user" class="ensen" id="input0" >
                 </div>
               <!-- </label>
               <section> -->
               <div class="col-xl-5 col-lg-12">
-                Password<br> <input type="password" name="pass" id="input1" >
+                Password<br> <input type="password" name="pass" class="ensen" id="input1" >
                 <input type="button" onclick="login()" value="login">
                 <!-- <input type="submit" value="login"> -->
               </div>
@@ -277,5 +277,15 @@ login{
     var t = setTimeout(startTime, 500);
 }
     
+
+document.querySelectorAll('.ensen').forEach(input=>{
+  input.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      login();
+    }
+  });
+})
+
 </script>
 </html>
