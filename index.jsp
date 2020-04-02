@@ -194,7 +194,7 @@ login{
             <input class="radio" type="radio" name="gender" value="male">Male</input>
             <input class="radio" type="radio" name="gender" value="female">Female</input>
             <input class="radio" type="radio" name="gender" value="custom">Custom</input><br>
-            <button type="submit" onclick="signup()">Signup</button>
+            <button type="submit">Signup</button>
           </form>
         </signup>
     </div>
@@ -228,36 +228,7 @@ login{
             });
         }
     }
-    function signup(){
-        let a = new Array();
-        for(var i=0; i<2;i++)
-            a[i] = document.getElementById('input'+i).value;
-        console.log(a[0]+a[1]);
-        if(a[0] == "" || a[1] == "")
-        {
-            alert("please fill the fields");
-        }else{
-            $.ajax({
-                type: "POST",
-                url: "http://localhost:80/projects/wt/register.php",
-                dataType: "jsonp",
-                data: {
-                    user: a[0],
-                    pass: a[1],
-                },
-                cache: false,
-                success: function (html) {
-                    if(!html.match('Failed')){
-                        alert(html);
-                        // window.location.href="home.jsp?user="+a[0];
-                    }else{
-                        alert(html.trim());
-                        // window.location.href="home.jsp";
-                    }
-                }
-            });
-        }
-    }
+
     startTime();
     function startTime() {
     var d = new Date();
