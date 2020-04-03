@@ -39,6 +39,33 @@
             widows: 100%;
             overflow-x: hidden;
         }
+        .share-btn{
+          width:max-content;
+          position: absolute;
+          bottom:20px;
+          background-color: #00f;
+          color: #fff;
+          padding:5px 20px;
+          border:1px solid #0000;
+          border-radius: 5px
+        }
+        .share-btn:focus .share-in, .share-in:focus{
+          outline: none;
+          width: 200px;
+          background-color: #fff;
+          padding:7px 10px;
+        }
+        .share-btn:focus{
+          outline: none;
+        }
+        .share-in{
+          width: 0;
+          border: 1px solid #00f;
+          border-radius: 5px;
+          padding:7px 0;
+          transition: width .3s,padding .3s;
+        }
+        
     </style>
 </head>
 <body>
@@ -48,7 +75,6 @@
           user = session.getAttribute("user").toString();
         else
           response.sendRedirect("http://localhost:8080/wt");
-
     %>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #333;">
         <a class="navbar-brand" href="home.jsp"><b><%=user%></b></a>
@@ -64,14 +90,15 @@
             <li class="nav-item">
               <a class="nav-link" href="bin.jsp">Recycle Bin</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="summa.jsp">Shared </a>
+            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Labels
+                Extra
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="wind.html">Wind</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="wind.html">About</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
@@ -90,12 +117,13 @@
       <!-- <div style="height:800px;width:100px;background-color: burlywood;"></div> -->
       
     <div class="collapse" id="collapseExample">
-      <div class="card card-body" id="fullcont">
+      <div class="card card-body" id="fullcont" style="position: relative;">
         <form method="POST" action="http://localhost:80/wt/update.php">
           <input type="hidden" value="<%=user%>" name="user">
           <input type="hidden" name="id" id="id-cont">
           <!-- <div class="row">
             <div class="col-11"> -->
+              
               <button type="button" style="float:right;background-color: #f00;color: #fff;border:1px solid #0000;border-radius: 20%;" class="mb-3" onclick="deleteNote()" >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fff" width="32px" height="32px"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"/><path d="M0 0h24v24H0V0z" fill="none"/></svg>
               </button>
@@ -110,8 +138,12 @@
           <div class="col-sm-1"> -->
           <button type="submit" style="float:right;background-color: #0c5;color: #fff;padding:5px 20px;border:1px solid #0000;border-radius: 5px">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fff" width="36px" height="36px"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
-          </button>            
+          </button>     
         </form>
+        <button type="button" class="share-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+          <input type="text" class="share-in">
+        </button>
         <!-- </div>
       </div> -->
     </div>
@@ -148,12 +180,26 @@
                   label = rs.getString("date");
                   content = rs.getString("content");
 
-                  out.println("<div id="+id+" class=\"col-lg-3 col-md-4 col-sm-6 my-card\">\n<a data-toggle=\"collapse\" href=\"#collapseExample\" role=\"button\" onclick=\"setExpand("+id+")\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n<div class=\"card "+(bg[i]=="bg-light"?"text-dark":"text-white")+" "+bg[i]+"\" style=\"max-width: 18rem;max-height: 14.4rem\">\n<div class=\"card-header\">"+label+"</div>\n<div class=\"card-body\"><h5 class=\"card-title\">"+title+"</h5><p class=\"card-text\">"+content+"</p></div></div></a></div>");
+        %>         
+                 
+        <div id="<%=id%>" class="col-lg-3 col-md-4 col-sm-6 my-card">
+          <a data-toggle="collapse" href="#collapseExample" role="button" onclick='setExpand("<%=id%>")' aria-expanded="false" aria-controls="collapseExample">
+            <div class='card <%=(bg[i]=="bg-light"?"text-dark":"text-white")+" "+bg[i]%>' style='max-width: 18rem;max-height: 14.4rem'>
+              <div class="card-header"><%=label%></div>
+              <div class="card-body">
+                <h5 class="card-title"><%=title%></h5>
+                <p class="card-text"><%=content%></p>
+              </div>
+            </div>
+          </a>
+        </div>
+                 
+        <%         
                   i = (i<7)?i+1:0;
-                }}
-                catch(Exception e){
-                   out.println(e);
                 }
+              }catch(Exception e){
+                  out.println(e);
+              }
         %>
 <script>
     function setExpand(id){
@@ -178,6 +224,34 @@
             setTimeout(()=>{window.location.reload()},100)
     }
     document.querySelector('#new-note').focus()
+
+    document.querySelector('.share-btn').addEventListener('click',()=>{
+      document.querySelector('.share-in').focus()
+    })
+    document.querySelector('.share-in').addEventListener("keyup", function(event){
+      if (event.keyCode === 13){
+        event.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "share.jsp",
+          data: {
+            owner: '<%=user%>',
+            id: document.getElementById('id-cont').value,
+            user: event.target.value
+          },
+          cache: false,
+          success: function (html) {
+            if(html.match('success')){
+              alert("shared with "+event.target.value)
+              event.target.value="";
+            }else{
+              alert(html.trim())
+            }
+          }
+        });
+      }
+    });
+
 </script>
 </body>
 </html>

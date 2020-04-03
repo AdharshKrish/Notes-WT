@@ -29,20 +29,25 @@
 
         String[] id = new String[100];
         String[] title = new String[100];
-        String[] label = new String[100];
+        String[] owner = new String[100];
         String[] content = new String[100];
         int i = 0;
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/notes","root","");
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from notes where user='"+user+"' and deleted=1");
+            Statement st1 = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from share where user='"+user+"'");
+            ResultSet rs1;
             while(rs.next()){
-                id[i] = Integer.toString(rs.getInt("id"));
-                title[i] = rs.getString("title");
-                label[i] = rs.getString("date");
-                content[i] = rs.getString("content");
-                i++;  
+                rs1 = st1.executeQuery("select * from notes where id="+rs.getInt("noteid"));
+                while(rs1.next()){
+                    id[i] = Integer.toString(rs1.getInt("id"));
+                    title[i] = rs1.getString("title");
+                    owner[i] = rs1.getString("user");
+                    content[i] = rs1.getString("content");
+                    i++;  
+                }
             }
         }
         catch(Exception e){
@@ -61,12 +66,12 @@
             <li class="nav-item">
               <a class="nav-link" href="home.jsp">Home </a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="bin.jsp">Recycle Bin <span class="sr-only">(current)</span> </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="summa.jsp">Shared </a>
-              </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="summa.jsp">Shared </a>
+            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Extra
@@ -88,7 +93,7 @@
             <%
                 for(int j=0;j<i;j++){
             %>
-                <a class="list-group-item list-group-item-action" style="height: 3em;overflow: hidden" id="note<%=id[j]%>" data-toggle="list" href="#expand<%=id[j]%>" role="tab" aria-controls="<%=id[j]%>"><b><%=title[j]%></b><span style="margin-left:20px;line-height: 1.7;"><%=content[j]%></span></a>
+                <a class="list-group-item list-group-item-action" style="height: 3em;overflow: hidden" id="note<%=id[j]%>" data-toggle="list" href="#expand<%=id[j]%>" role="tab" aria-controls="<%=id[j]%>"><b><%=title[j]%></b><span style="margin-left:20px;line-height: 1.7;"><%=owner[j]%></span></a>
             <%
                 }
             %>
@@ -100,12 +105,6 @@
             for(int j=0;j<i;j++){
         %>
             <div class="tab-pane fade m-3" id="expand<%=id[j]%>" role="tabpanel" aria-labelledby="note<%=id[j]%>">
-                <btn style="float:right;background-color: #f00;color: #fff;border:1px solid #0000;border-radius: 20%;margin:10px 20px;padding:5px" class="mb-3" onclick="clickBtn('<%=id[j]%>','permdel.php')" >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fff" width="36px" height="36px"><path d="M0 0h24v24H0V0z" fill="#f00"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
-                </btn>
-                <btn style="float:right;background-color: #00f;color: #fff;border:1px solid #0000;border-radius: 20%;margin:10px 20px;padding:5px" class="mb-3" onclick="clickBtn('<%=id[j]%>','restore.php')" >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fff" width="36px" height="36px"><path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
-                </btn>
                 <%=content[j]%>
             </div>
         <%

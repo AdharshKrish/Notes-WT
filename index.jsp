@@ -123,29 +123,15 @@ login{
             %>
           </div>
         <div class="col-lg-7 col-md-12 col-sm-12" style="padding:10px 0 10px 80px">
-            <!-- <login style="position:relative;left:15vw" class="login-lg">
-              <label>
-                Email <nbtp style="padding:0 65px"></nbtp> Password
-              </label>
-              <form method="POST" action="localhost:8080/wt/login.jsp">
-                <input type="text" name="user" id="input0" >
-                <input type="password" name="pass" id="input1" >
-                <input type="submit" onclick="login()" value="login">
-              </form>
-            </login> -->
             <login style="position:relative;left:15vw">
               <!-- <form method="GET" action="localhost:8080/wt/servlets/servlet/session"> -->
-              <!-- <label> -->
               <div class="row">
                 <div class="col-xl-3 col-lg-12">
-                Email<br> <input type="text" name="user" class="ensen" id="input0" >
+                Email<br> <input type="text" name="user" value="<%=cook%>" class="ensen" id="input0" >
                 </div>
-              <!-- </label>
-              <section> -->
               <div class="col-xl-5 col-lg-12">
-                Password<br> <input type="password" name="pass" class="ensen" id="input1" >
+                Password<br> <input type="password" name="pass" class="ensen" id="input1">
                 <input type="button" onclick="login()" value="login">
-                <!-- <input type="submit" value="login"> -->
               </div>
               <div class="col-12" style="margin-top:10px;">
                 <%
@@ -156,28 +142,11 @@ login{
                 %>
                 </div>
             </div>
-              <!-- </section> -->
-            <!-- </form> -->
             </login>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-6 col-md-4" id="login-img" style="padding: 100px 100px;">
-          <!-- <%
-          double num = Math.random();
-          if (num > 0.5) {
-          %>
-              <h2>You'll have a luck day!</h2><p><%= num %></p>
-          <%
-            } else {
-          %>
-              <h2>Well, life goes on ... </h2><p><%= num %></p>
-          <%
-            }
-          %>
-      
-          <%= "Haha I just lied" %>
-          <a href="<%= request.getRequestURI() %>"><h3>Try Again</h3></a> -->
           <img src="img/sticky-notes.png" style="height:25vw" alt="">
         </div>
         <div class="col-lg-6 col-md-8" style="padding-left:40px">
