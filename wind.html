@@ -913,33 +913,6 @@ body.slow-wind .tree{
 	left: -107px;
 }
 
-/* #Link to page
-================================================== */
-
-.link-to-portfolio {
-	  position: fixed;
-    top: 30px;
-    right: 30px;
-    z-index: 20;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    border-radius: 3px;
-    background-position: center center;
-    background-size: 30px 30px;
-  background-repeat: no-repeat;
-  background-color: #212121;
-    background-image: url('https://blog.codepen.io/wp-content/uploads/2012/06/Button-White-Small.png');
-    box-shadow: 0 0 0 2px rgba(0,0,0,.1);
-    transition: opacity .2s, border-radius .2s, box-shadow .2s;
-    transition-timing-function: ease-out;
-}
-.link-to-portfolio:hover {
-    opacity: 0.8;
-    border-radius: 50%;
-    box-shadow: 0 0 0 20px rgba(0,0,0,.1);
-}
     </style>
 </head>
 <body>
@@ -1157,12 +1130,27 @@ body.slow-wind .tree{
                 </div>
             </div>
         </div>
-    </div>
+	</div> 
+	
 
-          <!-- Link to page
-        ================================================== -->
-    
-     
+
+	
+	<p id="demo"></p>
+	
+	<script>
+	  var xmlhttp;
+      xmlhttp = new XMLHttpRequest();
+	  xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		  document.getElementById("demo").innerHTML = this.responseText;
+		}
+	  };
+	  xmlhttp.open("GET", "xmlhttp.xml", true);
+	  xmlhttp.send();
+	</script>
+	
+	
+
     <script>
         	$("#switch").on('click', function () {
 		if ($("body").hasClass("slow-wind")) {
