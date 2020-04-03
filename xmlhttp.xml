@@ -1,2 +1,8 @@
-<p>With the XMLHttpRequest object you can update parts of a web page, without reloading the whole page.</p>
-<p>The XMLHttpRequest object is used to exchange data with a server behind the scenes.</p>
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+  <owner>Adharsh M</owner>
+  <email>adharshkrish@outlook.com</email>
+  <repo>https://github.com/AdharshKrish/Notes-WT</repo>
+  <version>1.0</version>
+  <body>A notes application to create, edit and share text notes with fellow users.</body>
+</application>
