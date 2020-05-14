@@ -106,20 +106,20 @@ login{
           <div class="col-lg-3 col-md-7 col-sm-12 col-time" style="height:1px">
             <time id="time"></time>
             <%
-              if(session.getAttribute("user")!= null)
-              {
-                Cookie ck = new Cookie("lastlog",session.getAttribute("user").toString());
-                ck.setMaxAge(60*60*24*7);
-                response.addCookie(ck);
-                response.sendRedirect("http://localhost:8080/wt/home.jsp");
-              }
-                String cook = "";
-                Cookie c[] = request.getCookies();
-                for(Cookie cookie:c){  
-                  if(cookie.getName().equals("lastlog")){      
-                    cook = cookie.getValue();
-                  }
-                }
+if(session.getAttribute("user")!= null)
+{
+Cookie ck = new Cookie("lastlog",session.getAttribute("user").toString());
+ck.setMaxAge(60*60*24*7);
+response.addCookie(ck);
+response.sendRedirect("http://localhost:8080/wt/home.jsp");
+}
+String cook = "";
+Cookie c[] = request.getCookies();
+for(Cookie cookie:c){  
+  if(cookie.getName().equals("lastlog")){      
+    cook = cookie.getValue();
+  }
+}
             %>
           </div>
         <div class="col-lg-7 col-md-12 col-sm-12" style="padding:10px 0 10px 80px">
